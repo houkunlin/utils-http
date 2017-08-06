@@ -1,5 +1,7 @@
 package cn.goour.utils_http;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -17,12 +19,16 @@ public class Params {
 	public void remove(String key){
 		params.remove(key);
 	}
-	public String getParams(){
+	public String getParams() {
 		StringBuffer sBuffer = new StringBuffer();
 		for(Entry<String, Object> item:params.entrySet()){
 			sBuffer.append(item.getKey());
 			sBuffer.append("=");
-			sBuffer.append(item.getValue());
+			try {
+				sBuffer.append(URLEncoder.encode(item.getValue().toString(), "utf-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 			sBuffer.append("&");
 		}
 		return sBuffer.toString();
